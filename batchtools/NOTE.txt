@@ -1,0 +1,1 @@
+for batchtools you have to copy the template file as well as the config file to your home directory
