@@ -24,7 +24,7 @@ cmd = "R CMD BATCH --no-save --no-restore"
 #SBATCH -J <%= job.name %>
 ## direct stream to our logfile (-o is stdout and error)
 #SBATCH -o <%= log.file %>
-#SBATCH --clusters=serial
+#SBATCH --clusters=$CLUSTERS
 #SBATCH --get-user-env
 #SBATCH --export=NONE
 

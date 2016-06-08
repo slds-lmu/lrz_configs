@@ -1,6 +1,7 @@
 
 
 #Some modules to always load when logging in
+echo "Adding R, nano and git modules to .bashrc"
 echo "" >> ~/.bashrc #newline since \n does not work
 echo "module load R/3.2mkl" >> ~/.bashrc
 echo "module load nano" >> ~/.bashrc
@@ -8,5 +9,9 @@ echo "module load git" >> ~/.bashrc
 
 
 #Set mpp2 as the default cluster
+echo "setting mpp2 as default cluster"
 echo "export CLUSTERS=mpp2" >> ~/.bashrc
 
+#Set symbolic links to the batchtools and Batchjobs config files
+ln -s ~/.batchtools.conf.r /home/hpc/ua341/di25koz/lrz_configs/config_files/batchjobs/.batchtools.conf.r
+ln -s ~/.BatchJobs.R /home/hpc/ua341/di25koz/lrz_configs/config_files/Batchjobs/.Batchjobs.R
