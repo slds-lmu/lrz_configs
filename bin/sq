@@ -1,0 +1,1 @@
+squeue --clusters=$CLUSTERS -u $USER

@@ -1,0 +1,12 @@
+
+
+#Some modules to always load when logging in
+echo "" >> ~/.bashrc #newline since \n does not work
+echo "module load R/3.2mkl" >> ~/.bashrc
+echo "module load nano" >> ~/.bashrc
+echo "module load git" >> ~/.bashrc
+
+
+#Set mpp2 as the default cluster
+echo "export CLUSTERS=mpp2" >> ~/.bashrc
+

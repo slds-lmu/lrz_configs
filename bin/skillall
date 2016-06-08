@@ -1,0 +1,1 @@
+scancel --clusters=$CLUSTERS -u $USER
