@@ -2,6 +2,4 @@ cluster.functions = batchtools::makeClusterFunctionsSLURM("/home/hpc/ua341/di25k
 	clusters = "mpp2")
 default.resources = list(walltime = 300L, memory = 512L, ntasks = 28L)
 
-
-
 debug = TRUE

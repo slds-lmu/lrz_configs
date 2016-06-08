@@ -1,3 +1,5 @@
+#!/bin/sh
+
 wget https://cran.r-project.org/src/contrib/openssl_0.9.4.tar.gz
 
 R CMD INSTALL --configure-vars='INCLUDE_DIR=/home/hpc/ua341/di25koz/myssl/include LIB_DIR=/home/hpc/ua341/di25koz/myssl/lib' openssl_0.9.4.tar.gz

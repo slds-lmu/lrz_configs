@@ -1,4 +1,4 @@
-
+#!/bin/sh
 
 #Some modules to always load when logging in
 echo "Adding R, nano and git modules to .bashrc"

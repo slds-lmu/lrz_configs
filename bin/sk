@@ -1,1 +1,3 @@
+#!/bin/sh
+
 scancel --clusters=$CLUSTERS -u $USER $1
