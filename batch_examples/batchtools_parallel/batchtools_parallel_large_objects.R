@@ -24,7 +24,7 @@ doStuff = function(i) {
 
 path = paste0(system("echo $PROJECT"), "/test_file")
 
-if (file.exists(path) {
+if (file.exists(path)) {
 unlink(path)
 }
 
