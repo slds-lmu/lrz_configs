@@ -1,27 +1,38 @@
 #!/bin/sh
 
-squeue --clusters=$1 | awk '
-BEGIN {
-   printf("%-12s %12s %10s %10s\n", "user", "interactive", "queued", "running")
-}
-NR >= 2 {
-   user = $4
-   users[user] = 1
-   if ($2 == "interacti")
-       interactive[user] += 1
-   else if ($5 == "R") {
-       jobs_running[user] += 1
-       nodes_running[user] += $7
-   } else if ($5 == "PD") {
-       jobs_queued[user] += 1
-       nodes_queued[user] += $7
-   }
-}
-END {
-   for (user in users) {
-       printf("%-12s %12i  %3i (%3i)  %3i (%3i)\n", user, interactive[user],
-              jobs_queued[user], nodes_queued[user],
-              jobs_running[user], nodes_running[user])
-   }
-}
-' 
+
+if [ "$#" -eq 0 ]; then
+	 clusters=( "serial" "hugemem" "mpp1" "mpp2" )
+else
+	 clusters=( "$@" )
+fi
+
+for i in "${clusters[@]}"
+do
+	echo -e "CLUSTER: $i\n"
+	squeue --clusters=$i | awk '
+	BEGIN {
+	   printf("%-12s %12s %10s\n", "user", "queued", "running")
+	}
+	NR >= 2 {
+	   user = $4
+	   users[user] = 1
+	   if ($5 == "RUNNING") {
+	       jobs_running[user] += 1
+	       nodes_running[user] += $8
+	   } else if ($5 == "PENDING") {
+	       jobs_queued[user] += 1
+	       nodes_queued[user] += $8
+	   }
+	}
+	END {
+	   for (user in users) {
+	       printf("%-12s %5i (%5i)  %3i (%3i)\n", user,
+		      jobs_queued[user], nodes_queued[user],
+		      jobs_running[user], nodes_running[user])
+	   }
+	}
+	'
+	echo -e "\n\n"
+done
+
