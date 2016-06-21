@@ -27,6 +27,19 @@ if grep -q "export CLUSTERS=mpp2" ~/.bashrc; then
 	fi
 
 
+echo ""
+
 #Set symbolic links to the batchtools and Batchjobs config files
 ln -s ~/.batchtools.conf.r /home/hpc/ua341/di25koz/lrz_configs/config_files/batchjobs/.batchtools.conf.r
 ln -s ~/.BatchJobs.R /home/hpc/ua341/di25koz/lrz_configs/config_files/Batchjobs/.Batchjobs.R
+
+
+echo ""
+#Add lrz_config/bin to path
+if  grep -q "/di25koz/lrz_configs/bin" ~/.bashrc; then
+		echo "lrz_config/bin already in PATH"
+	else 
+		echo "" >> ~/.bashrc
+		echo 'export PATH=$PATH:/home/hpc/ua341/di25koz/lrz_configs/bin' >> ~/.bashrc
+		echo "added /home/hpc/ua341/di25koz/lrz_configs/bin to PATH"
+	fi
