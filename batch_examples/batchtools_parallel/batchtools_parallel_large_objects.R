@@ -22,7 +22,13 @@ doStuff = function(i) {
 }
 
 
-reg = makeRegistry(file.dir = "$PROJECT/test_file", packages = c("methods"))
+path = paste0(system("echo $PROJECT"), "/test_file")
+
+if (file.exists(path) {
+unlink(path)
+}
+
+reg = makeRegistry(file.dir = path, packages = c("methods", "mlr"))
 
 
 reg$default.resources$ntasks = 28
