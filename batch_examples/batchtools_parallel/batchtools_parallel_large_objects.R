@@ -7,13 +7,21 @@ doStuff = function(i) {
   
   library(mlr)
   library(parallelMap)
-  lrn = makeLearner("classif.randomForest", ntree = 1000)
+  
   
   
   
   parallelMap::parallelStartMPI(28)
   
-  models = parallelMap(function(x) mlr::train(lrn, mlr::pid.task), 1:i)
+  doTrain = function(x) {
+    print(x)
+    require(mlr)
+    lrn = makeLearner("classif.randomForest", ntree = 1000)
+    train(lrn, pid.task)
+  }
+  
+  
+  models = parallelMap(doTrain, 1:i)
   
   parallelStop()
 
