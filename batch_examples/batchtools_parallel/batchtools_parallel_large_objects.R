@@ -13,7 +13,7 @@ doStuff = function(i) {
   
   parallelMap::parallelStartMPI(28)
   
-  models = parallelMap(function(x) train(lrn, pid.task), 1:i)
+  models = parallelMap(function(x) mlr::train(lrn, mlr::pid.task), 1:i)
   
   parallelStop()
 
@@ -22,10 +22,10 @@ doStuff = function(i) {
 }
 
 
-path = paste0(system("echo $PROJECT"), "/test_file")
+path = "/naslx/projects/ua341/di25koz/test_file"
 
 if (file.exists(path)) {
-unlink(path)
+unlink(path, recursive = TRUE)
 }
 
 reg = makeRegistry(file.dir = path, packages = c("methods", "mlr"))
