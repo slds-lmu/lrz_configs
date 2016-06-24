@@ -30,8 +30,9 @@ if grep -q "export CLUSTERS=mpp2" ~/.bashrc; then
 echo ""
 
 #Set symbolic links to the batchtools and Batchjobs config files
-ln -s ~/.batchtools.conf.r /home/hpc/ua341/di25koz/lrz_configs/config_files/batchjobs/.batchtools.conf.r
-ln -s ~/.BatchJobs.R /home/hpc/ua341/di25koz/lrz_configs/config_files/Batchjobs/.Batchjobs.R
+ln -s /home/hpc/ua341/di25koz/lrz_configs/config_files/batchtools/.batchtools.conf.r ~/.batchtools.conf.r
+ln -s /home/hpc/ua341/di25koz/lrz_configs/config_files/Batchjobs/.BatchJobs.R ~/.BatchJobs.R
+
 
 
 echo ""
