@@ -31,7 +31,7 @@ echo ""
 
 #Set symbolic links to the batchtools and Batchjobs config files
 ln -s /home/hpc/ua341/di25koz/lrz_configs/config_files/batchtools/.batchtools.conf.r ~/.batchtools.conf.r
-ln -s /home/hpc/ua341/di25koz/lrz_configs/config_files/Batchjobs/.BatchJobs.R ~/.BatchJobs.R
+ln -s /home/hpc/ua341/di25koz/lrz_configs/config_files/BatchJobs/.BatchJobs.R ~/.BatchJobs.R
 
 
 
