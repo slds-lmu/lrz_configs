@@ -15,9 +15,15 @@ resources$ncpus = checkmate::asInt(resources$ncpus, lower = 1L)
 if (resources$ntasks == 1L) {
   cmd = "Rscript"
   mincpus = 1L
+  if(is.null(clusters)) {
+  clusters = "serial"
+  }
 } else {
   cmd = "mpirun -np 1 Rscript"
   mincpus = 2L
+  if(is.null(clusters)) {
+  clusters = "mpp2"
+  }
 }
 -%>
 
