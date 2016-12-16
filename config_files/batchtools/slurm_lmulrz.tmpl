@@ -7,8 +7,8 @@ if (is.null(resources$ncpus))
   resources$ncpus = 1L
 
 ## Check variables
-resources$walltime = checkmate::asInt(resources$walltime, lower = 1L, upper = 172800L)
-resources$memory = checkmate::asInt(resources$memory, lower = 100L, upper = 64000L)
+resources$walltime = checkmate::asInt(resources$walltime, lower = 1L)
+resources$memory = checkmate::asInt(resources$memory, lower = 100L)
 resources$ntasks = checkmate::asInt(resources$ntasks, lower = 1L)
 resources$ncpus = checkmate::asInt(resources$ncpus, lower = 1L)
 
@@ -37,6 +37,5 @@ if (resources$ntasks == 1L) {
 #SBATCH --mem-per-cpu=<%= resources$memory %>
 #SBATCH --clusters=<%= clusters %>
 
-module load R3.2/mkl
 
-<%= cmd %> -e 'batchtools::doJobCollection("<%= uri %>", "<%= log.file %>")'  
+<%= cmd %> -e 'batchtools::doJobCollection("<%= uri %>")'  
