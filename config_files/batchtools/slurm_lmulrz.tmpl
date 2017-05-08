@@ -15,14 +15,17 @@ resources$ncpus = checkmate::asInt(resources$ncpus, lower = 1L)
 if (resources$ntasks == 1L) {
   cmd = "Rscript"
   mincpus = 1L
-  if(is.null(clusters)) {
-  clusters = "serial"
+  if(is.null(resources$clusters)) {
+  resources$clusters = "serial"
+  }
+  if(is.null(resources$partition)) {
+  resources$partition = "serial_mpp2"
   }
 } else {
   cmd = "mpirun -np 1 Rscript"
   mincpus = 2L
-  if(is.null(clusters)) {
-  clusters = "mpp2"
+  if(is.null(resources$clusters)) {
+  resources$clusters = "mpp2"
   }
 }
 -%>
@@ -35,7 +38,13 @@ if (resources$ntasks == 1L) {
 #SBATCH --mincpus=<%= mincpus %>
 #SBATCH --cpus-per-task=<%= resources$ncpus %>
 #SBATCH --mem-per-cpu=<%= resources$memory %>
-#SBATCH --clusters=<%= clusters %>
+#SBATCH --clusters=<%= resources$clusters %>
+<%=
+## set partition if required
+if(!is.null(resources$partition)){
+paste0("#SBATCH --partition=", resources$partition, "\n")
+}
+-%>
 
 
 <%= cmd %> -e 'batchtools::doJobCollection("<%= uri %>")'  
