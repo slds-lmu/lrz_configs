@@ -1,0 +1,11 @@
+#!/bin/bash	
+#SBATCH --job-name=test
+#SBATCH --output=/home/hpc/pr74ze/ri89coc2/test.log
+#SBATCH --error=/home/hpc/pr74ze/ri89coc2/test.err
+#SBATCH --time=5
+#SBATCH --mem=500mb
+#SBATCH --clusters=serial
+#SBATCH --partition=serial_mpp2
+Rscript /home/hpc/pr74ze/ri89coc2/test.R
+
+
