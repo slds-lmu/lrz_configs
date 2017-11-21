@@ -15,7 +15,8 @@ resources$memory = checkmate::asInt(resources$memory, lower = 100L)
 resources$ntasks = checkmate::asInt(resources$ntasks, lower = 1L)
 resources$ncpus = checkmate::asInt(resources$ncpus, lower = 1L)
 resources$nodes = checkmate::asInt(resources$nodes, lower = 0L)
-
+-%>
+<%=
 ## serial mode
 if (resources$ntasks == 1L & resources$ncpus == 1L) {
   cmd = "Rscript"
@@ -26,16 +27,16 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
   if (is.null(resources$partition)) {
     resources$partition = "serial_mpp2"
   }
-  paste0("#SBATCH --mem-per-cpu", resources$memory, "\n")
+  sprintf(paste0("#SBATCH --mem-per-cpu=", resources$memory))
 ## shared memory mode
 } else if(resources$ncpus > 1) {
   cmd = "Rscript"
   if (is.null(resources$clusters)) {
     resources$clusters = "mpp2"
   }
-  paste0("#SBATCH --nodes=", resources$nodes, "\n")
-  paste0("#SBATCH --cpus-per-task=", resources$ncpus, "\n")
-  paste0("#SBATCH --mem=", resources$memory, "\n")
+  sprintf(paste0("#SBATCH --nodes=", resources$nodes))
+  sprintf(paste0("#SBATCH --cpus-per-task=", resources$ncpus))
+  sprintf(paste0("#SBATCH --mem=", resources$memory))
 ## distributed memory mode
 } else {
   cmd = "mpirun -np 1 Rscript"
@@ -43,10 +44,10 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
   if (is.null(resources$clusters)) {
     resources$clusters = "mpp2"
   }
-  paste0("#SBATCH --mem-per-cpu", resources$memory, "\n")
-  paste0("#SBATCH --ntasks", resources$ntasks, "\n")
+  sprintf(paste0("#SBATCH --mem-per-cpu=", resources$memory))
+  sprintf(paste0("#SBATCH --ntasks=", resources$ntasks))
 }
--%>
+%>
 
 #SBATCH --job-name=<%= job.hash %>
 #SBATCH --output=<%= log.file %>
@@ -56,8 +57,8 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
 <%=
 ## set partition if required
 if(!is.null(resources$partition)){
-paste0("#SBATCH --partition=", resources$partition, "\n")
+sprintf(paste0("#SBATCH --partition='", resources$partition, "'\n"))
 }
--%>
+%>
 
 <%= cmd %> -e 'batchtools::doJobCollection("<%= uri %>")'

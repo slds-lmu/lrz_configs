@@ -1,6 +1,6 @@
 #!/bin/sh
 
-wget https://cran.r-project.org/src/contrib/openssl_0.9.8.tar.gz
+wget https://cran.r-project.org/src/contrib/Archive/openssl/openssl_0.9.8.tar.gz 
 
 R CMD INSTALL --configure-vars='INCLUDE_DIR=/home/hpc/pr74ze/ri89coc2/lrz_configs/bin/myssl/include LIB_DIR=/home/hpc/pr74ze/ri89coc2/lrz_configs/bin/myssl/lib' openssl_0.9.8.tar.gz
 
