@@ -43,21 +43,21 @@ makeClusterFunctionsSlurmLrz = function(template = "slurm", clusters = NULL, arr
     checkmate::assertString(clusters, min.chars = 1L)
   checkmate::assertFlag(array.jobs)
   checkmate::assertString(nodename)
-  template = findTemplateFile(template)
-  template = cfReadBrewTemplate(template, "##")
+  template = batchtools::findTemplateFile(template)
+  template = batchtools::cfReadBrewTemplate(template, "##")
 
   submitJob = function(reg, jc) {
     assertRegistry(reg, writeable = TRUE)
-    assertClass(jc, "JobCollection")
+    checkmate::assertClass(jc, "JobCollection")
 
     jc$clusters = clusters
     if (jc$array.jobs) {
       logs = sprintf("%s_%i", fs::path_file(jc$log.file), seq_row(jc$jobs))
-      jc$log.file = stri_join(jc$log.file, "_%a")
+      jc$log.file = stringi::stri_join(jc$log.file, "_%a")
     }
     outfile = cfBrewTemplate(reg, template, jc)
     res = runOSCommand("sbatch", shQuote(outfile), nodename = nodename)
-    output = stri_flatten(stri_trim_both(res$output), "\n")
+    output = stringi::stri_flatten(stri_trim_both(res$output), "\n")
 
     if (res$exit.code > 0L) {
       temp.errors = c(
@@ -71,7 +71,7 @@ makeClusterFunctionsSlurmLrz = function(template = "slurm", clusters = NULL, arr
       return(cfHandleUnknownSubmitError("sbatch", res$exit.code, res$output))
     }
 
-    id = stri_split_fixed(output[1L], " ")[[1L]][4L]
+    id = stringi::stri_split_fixed(output[1L], " ")[[1L]][4L]
     if (jc$array.jobs) {
       if (!array.jobs)
         stop("Array jobs not supported by cluster function")
@@ -87,7 +87,7 @@ makeClusterFunctionsSlurmLrz = function(template = "slurm", clusters = NULL, arr
       args = c(args, "-r")
     res = runOSCommand("squeue", args, nodename = nodename)
     if (res$exit.code > 0L)
-      OSError("Listing of jobs failed", res)
+      batchtools:::OSError("Listing of jobs failed", res)
     if (!is.null(clusters)) tail(res$output, -1L) else res$output
   }
 
