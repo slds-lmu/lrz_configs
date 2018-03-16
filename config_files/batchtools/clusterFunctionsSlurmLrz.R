@@ -43,7 +43,7 @@ makeClusterFunctionsSlurmLrz = function(template = "slurm", clusters = NULL, arr
     checkmate::assertString(clusters, min.chars = 1L)
   checkmate::assertFlag(array.jobs)
   checkmate::assertString(nodename)
-  template = batchtools::findTemplateFile(template)
+  template = batchtools:::findTemplateFile(template)
   template = batchtools::cfReadBrewTemplate(template, "##")
 
   submitJob = function(reg, jc) {
