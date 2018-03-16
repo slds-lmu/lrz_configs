@@ -40,9 +40,9 @@
 #' @export
 makeClusterFunctionsSlurmLrz = function(template = "slurm", clusters = NULL, array.jobs = TRUE, nodename = "localhost", scheduler.latency = 1, fs.latency = 65) { # nocov start
   if (!is.null(clusters))
-    assertString(clusters, min.chars = 1L)
-  assertFlag(array.jobs)
-  assertString(nodename)
+    checkmate::assertString(clusters, min.chars = 1L)
+  checkmate::assertFlag(array.jobs)
+  checkmate::assertString(nodename)
   template = findTemplateFile(template)
   template = cfReadBrewTemplate(template, "##")
 
