@@ -114,5 +114,5 @@ makeClusterFunctionsSlurmLrz = function(template = "slurm", clusters = NULL, arr
 
   makeClusterFunctions(name = "Slurm", submitJob = submitJob, killJob = killJob, listJobsRunning = listJobsRunning,
     listJobsQueued = listJobsQueued, array.var = "SLURM_ARRAY_TASK_ID", store.job.collection = TRUE,
-    store.job.files = !isLocalHost(nodename), scheduler.latency = scheduler.latency, fs.latency = fs.latency)
+    store.job.files = !batchtools:::isLocalHost(nodename), scheduler.latency = scheduler.latency, fs.latency = fs.latency)
 } # nocov end
