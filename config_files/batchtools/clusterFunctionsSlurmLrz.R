@@ -57,7 +57,7 @@ makeClusterFunctionsSlurmLrz = function(template = "slurm", clusters = NULL, arr
     }
     outfile = cfBrewTemplate(reg, template, jc)
     res = runOSCommand("sbatch", shQuote(outfile), nodename = nodename)
-    output = stringi::stri_flatten(stri_trim_both(res$output), "\n")
+    output = stringi::stri_flatten(stringi::stri_trim_both(res$output), "\n")
 
     if (res$exit.code > 0L) {
       temp.errors = c(
