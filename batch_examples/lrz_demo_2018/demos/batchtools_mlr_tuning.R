@@ -43,7 +43,7 @@ addAlgorithm(name = "mlr_tuning", fun = function(job, data, instance, learner, p
   # As well as the number of CPUs available and on which "level" we want to parallelize.
   parallelStartMulticore(cpus = 28L, level = "mlr.tuneParams")
 
-  tuneParams(learner = learner,
+  result = tuneParams(learner = learner,
     task = data$mlr.task,
     resampling = data$mlr.rin,
     measures = measures,
@@ -51,6 +51,7 @@ addAlgorithm(name = "mlr_tuning", fun = function(job, data, instance, learner, p
     control = tune.control)
 
   parallelStop() #  parallelization is turned off and all necessary stuff is cleaned up. -> good practice
+  return(result)
 })
 
 
@@ -84,8 +85,9 @@ print(algo.design)
 # Note: Since, CONTROL and MEASURES are the same for both LEARNERs, they are repeated in the design,
 # but we COULD also easily compare multiple different optimization strategies, e.g., grid search or model-based optimization.
 
-addExperiments(algo.designs = algo.design, repls = 10, resources = resources)
+addExperiments(algo.designs = algo.design, repls = 10)
 
+submitJobs(1, resources = resources)
 
 
 

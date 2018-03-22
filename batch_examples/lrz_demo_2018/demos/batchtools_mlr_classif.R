@@ -9,6 +9,9 @@ unlink("be_mlr_oml", recursive = TRUE)
 reg = makeExperimentRegistry(file.dir = "be_mlr_oml", packages= c("mlr", "OpenML"))
 
 
+# The registry contains defaults about which cluster to use, how much cores and memory to allocate
+print(reg$default.resources)
+# We can change the defaults here, or specify them when submitting the jobs (later)
 
 
 ### Define and add (ML) problems ###
@@ -22,7 +25,7 @@ task.table = listOMLTasks(
   tag = "Study_14"                    # Included in Study 14 (pre-selected subset of problems)
 )
 
-print(tasks)
+print(task.table)
 
 # Download and OpenML tasks
 tasks = lapply(task.table$task.id, getOMLTask)
@@ -82,4 +85,5 @@ results = getJobPars()[results]
 print(results)
 
 results = unwrap(results)
-results.aggr = results[, .(mean.perf = mean(mmce.test.mean)), by = .(problem, learner)]
+results.aggr = results[, .(mean.perf = mean(acc.test.mean)), by = .(problem, learner)]
+print(results.aggr)
