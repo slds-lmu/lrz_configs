@@ -1,0 +1,31 @@
+#!/bin/bash
+apt-get -y update
+apt-get -y upgrade
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+apt-get -y update
+apt-get -y install libcurl4-openssl-dev libxml2-dev libssl-dev fftw3 libxt-dev libxml2-dev build-essential git libopenblas-dev liblapack-dev libopencv-dev r-base r-base-dev
+Rscript -e "install.packages('devtools', repo = 'https://cran.rstudio.com')"
+Rscript -e "library(devtools); library(methods); options(repos=c(CRAN='https://cran.rstudio.com')); install_deps(dependencies = TRUE)"
+Rscript -e "devtools::install_version(package = 'roxygen2',version = '5.0.1', repos = c(CRAN = 'https://cran.rstudio.com'), quiet = FALSE)"
+
+CUDNN_TAR_FILE="cudnn-8.0-linux-x64-v6.0.tgz"
+wget http://developer.download.nvidia.com/compute/redist/cudnn/v6.0/${CUDNN_TAR_FILE}
+tar -xzvf ${CUDNN_TAR_FILE}
+cp -P cuda/include/cudnn.h /usr/local/cuda/include
+cp -P cuda/lib64/libcudnn* /usr/local/cuda/lib64
+chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+ldconfig
+
+git clone --recursive https://github.com/dmlc/mxnet
+cd mxnet
+make -j $(nproc) USE_OPENCV=1 USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1
+/bin/su -c "echo 'export CUDA_HOME=/usr/local/cuda' >> '$(R RHOME)/etc/ldpaths'"
+/bin/su -c "echo 'export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}' >> '$(R RHOME)/etc/ldpaths'"
+fallocate -l 2G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+cp make/config.mk .
+
+make rpkg
