@@ -17,10 +17,10 @@ do
 	NR >= 2 {
 	   user = $4
 	   users[user] = 1
-	   if ($5 == "RUNNING") {
+	   if ($5 == "R") {
 	       jobs_running[user] += 1
 	       nodes_running[user] += $8
-	   } else if ($5 == "PENDING") {
+	   } else if ($5 == "PD") {
 	       jobs_queued[user] += 1
 	       nodes_queued[user] += $8
 	   }
