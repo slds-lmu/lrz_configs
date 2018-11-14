@@ -3,7 +3,7 @@
 #Some modules to always load when logging in
 echo "Adding R, nano and git modules to .bashrc"
 
-declare -a mods=("nano" "R/3.3mkl" "git")
+declare -a mods=("spack" "nano" "r/3.5.0-X11-mkl" "git")
 
 for i in "${mods[@]}"
 do
@@ -41,6 +41,6 @@ if  grep -q "/di25koz/lrz_configs/bin" ~/.bashrc; then
 		echo "lrz_config/bin already in PATH"
 	else
 		echo "" >> ~/.bashrc
-		echo 'export PATH=$PATH:/home/hpc/pr74ze/ri89coc2/lrz_configs/bin' >> ~/.bashrc
+		echo 'export PATH=/home/hpc/pr74ze/ri89coc2/lrz_configs/bin:$PATH' >> ~/.bashrc
 		echo "added /home/hpc/pr74ze/ri89coc2/lrz_configs/bin to PATH"
 	fi
