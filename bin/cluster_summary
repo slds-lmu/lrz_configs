@@ -13,7 +13,7 @@ do
   BEGIN {
      printf("%-12s %12s %10s\n", "user", "queued", "running")
   }
-  NR >= 2 {
+  NR > 2 {
      user = $4
      users[user] = 1
      if ($5 == "R") {
