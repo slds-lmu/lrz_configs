@@ -1,38 +1,62 @@
 #!/bin/sh
 
-
 if [ "$#" -eq 0 ]; then
-	 clusters=( "serial" "hugemem" "mpp2" )
+   clusters=( "serial" "hugemem" "mpp2" )
 else
-	 clusters=( "$@" )
+   clusters=( "$@" )
 fi
 
 for i in "${clusters[@]}"
 do
-	echo -e "CLUSTER: $i\n"
-	squeue --clusters=$i | awk '
-	BEGIN {
-	   printf("%-12s %12s %10s\n", "user", "queued", "running")
-	}
-	NR >= 2 {
-	   user = $4
-	   users[user] = 1
-	   if ($5 == "R") {
-	       jobs_running[user] += 1
-	       nodes_running[user] += $8
-	   } else if ($5 == "PD") {
-	       jobs_queued[user] += 1
-	       nodes_queued[user] += $8
-	   }
-	}
-	END {
-	   for (user in users) {
-	       printf("%-12s %5i (%5i)  %3i (%3i)\n", user,
-		      jobs_queued[user], nodes_queued[user],
-		      jobs_running[user], nodes_running[user])
-	   }
-	}
-	'
-	echo -e "\n\n"
+  echo -e "CLUSTER: $i\n"
+  squeue --clusters=$i | awk '
+  BEGIN {
+     printf("%-12s %12s %10s\n", "user", "queued", "running")
+  }
+  NR >= 2 {
+     user = $4
+     users[user] = 1
+     if ($5 == "R") {
+         jobs_running[user] += 1
+         nodes_running[user] += $8
+     } else if ($5 == "PD") {
+         jobs_queued[user] += 1
+         nodes_queued[user] += $8
+     }
+  }
+  END {
+     for (user in users) {
+         printf("%-12s %5i (%5i)  %3i (%3i)\n", user,
+          jobs_queued[user], nodes_queued[user],
+          jobs_running[user], nodes_running[user])
+     }
+  }
+  '
+
+  echo -e "\nQueue infos:"
+  sprio --clusters=$i --user=$USER | awk '
+  BEGIN {
+     printf("%-12s %10s %10s %10s\n", "user", "avg.priority", "avg.age", "fairshare")
+  }
+  NR >= 2 {
+      user = $2
+      users[user] = 1
+      jobs_queued[user] += 1
+      priority[user] += $3
+      age[user] += $4
+      fairshare[user] += $5
+  }
+  END {
+     for (user in users) {
+      if (jobs_queued[user] > 0) {
+        printf("%-12s %10i %10i %10i \n", user,
+          priority[user] / jobs_queued[user],
+          age[user] / jobs_queued[user],
+          fairshare[user] / jobs_queued[user])
+      }
+    }
+  }
+  '
+  echo -e "\n\n"
 done
 
