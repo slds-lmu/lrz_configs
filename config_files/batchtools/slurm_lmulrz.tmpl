@@ -24,7 +24,7 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
   if (is.null(resources$clusters)) {
     resources$clusters = "serial"
   }
-  if (is.null(resources$partition)) {
+  if (is.null(resources$partition) && resources$clusters == "serial") {
     resources$partition = "serial_mpp2"
   }
   sprintf(paste0("#SBATCH --mem-per-cpu=", resources$memory))

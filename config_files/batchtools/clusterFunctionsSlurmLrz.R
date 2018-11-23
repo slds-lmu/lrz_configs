@@ -65,7 +65,7 @@ makeClusterFunctionsSlurmLrz = function(template = "slurm", clusters = NULL, arr
         "Socket timed out on send/recv operation",
         "Submission rate too high, suggest using job arrays"
         )
-      i = wf(stri_detect_fixed(output, temp.errors))
+      i = checkmate::wf(stringi::stri_detect_fixed(output, temp.errors))
       if (length(i) == 1L)
         return(makeSubmitJobResult(status = i, batch.id = NA_character_, msg = temp.errors[i]))
       return(cfHandleUnknownSubmitError("sbatch", res$exit.code, res$output))
