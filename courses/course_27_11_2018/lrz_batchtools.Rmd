@@ -54,3 +54,10 @@ output:
 
 # BATCHTOOLS DEMO
 
+
+# BEST PRACTICES
+
+
+```{r, child=readSlide("parallel_best_practices")}
+```
+
