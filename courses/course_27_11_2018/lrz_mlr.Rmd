@@ -1,0 +1,84 @@
+---
+title: Machine Learning with R at LRZ
+subtitle: Introduction to mlr
+author: Janek Thomas
+date: 2018-11-27
+output:
+  beamer_presentation:
+    includes:
+      in_header: "../../_setup/preamble.sty"
+    template: "../../_setup/custom_pandoc.tex"
+---
+
+## {.plain}
+
+```{r, child="../../_setup/setup.Rmd",echo=FALSE,message=FALSE,include=FALSE}
+```
+
+<!-- This file was created autmatically! Please check the entrys! -->
+
+
+
+# WHAT IS MACHINE LEARNING
+
+
+```{r, child=readSlide("intro_ml_1")}
+```
+
+
+```{r, child=readSlide("intro_ml_workflow")}
+```
+
+
+# INTRODUCTION
+
+
+```{r, child=readSlide("mlr_motivation")}
+```
+
+
+```{r, child=readSlide("mlr_outlook")}
+```
+
+
+# FIRST DATA ANALYSIS
+
+
+```{r, child=readSlide("first_data_analyses_titanic")}
+```
+
+
+# EXERCISE 1
+
+
+# RESAMPLING
+
+
+```{r, child=readSlide("resampling_mlr")}
+```
+
+
+```{r, child=readSlide("first_benchmark_short")}
+```
+
+
+# TUNING
+
+
+```{r, child=readSlide("tuning_2")}
+```
+
+
+```{r, child=readSlide("tuning_mlr")}
+```
+
+
+# PARALLEL MLR
+
+
+```{r, child=readSlide("parallel")}
+```
+
+
+# EXERCISE 2
+

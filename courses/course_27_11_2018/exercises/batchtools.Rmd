@@ -1,0 +1,17 @@
+---
+output:
+  pdf_document
+---
+
+# Machine Learning with R at LRZ: Introduction to batchtools
+
+
+Take the benchmark from the second `mlr` exercise sheet and run it on the cluster.
+The spam dataset has the OpenML `data.id` 44.
+
+1) Run it on the *serial* cluster. Each slurm job should do a full 10-fold CV.
+
+2) Run it on the *mpp2* cluster using 2-level parallelization with `parallelMap`.
+Each slurm job is still a 10-fold CV but is parallelized on a node using the multicore backend of `parallelMap`.
+
+3) If you want to replicate the experiment with multiple different 10-fold crossvalidations, how do you need to change the code?

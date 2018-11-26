@@ -1,0 +1,78 @@
+---
+output:
+  pdf_document
+---
+
+# Machine Learning with R at LRZ: Introduction to mlr
+
+# Resampling
+
+We will continue our example for spam classification
+
+a) Instead of manually splitting train and test set create a holdout set directly in mlr. Use the set to evaluate the performance of an algorithm of your choice on the spam data. Use 80% of the data for training and create stratified splits.
+
+```{r, eval = TRUE}
+library(mlr)
+data(spam, package = "kernlab")
+spam.task = makeClassifTask(data = spam, target = "type")
+lrn = makeLearner("classif.rpart", predict.type = "prob")
+```
+
+b) Now create a 10-fold crossvalidation and evaluate AUC and training time
+
+```{r, eval = TRUE}
+resample(lrn, spam.task, cv10, measures = list(auc, timetrain))
+```
+
+## Benchmarking
+
+We would like to create a small benchmark study to see how much complexity is required to achieve an AUC of at least 98%.
+
+a) Create the following learning algorithms to compare their performance
+- Featureless baseline learner
+- Linear Discriminant Analysis
+- Logistic Regression
+- Classification Tree
+- Random Forest
+
+```{r, eval = TRUE}
+lrns = makeLearners(type = "classif", c("featureless", "lda", "logreg", "rpart",
+                                        "randomForest"), predict.type = "prob")
+lrns
+```
+
+b) Benchmark the five learning algorithms with a 5-fold crossvalidation (ensure identical folds for all learners). Measure the AUC as well as the runtime.
+
+```{r, eval = TRUE}
+bmr = benchmark(lrns, spam.task, cv5, measures = list(auc, timetrain))
+```
+
+c) Vizualize the results. Which learner would you use in practice and as a spam detector?
+
+```{r, eval = TRUE}
+plotBMRBoxplots(bmr, measure = auc)
+plotBMRBoxplots(bmr, measure = timetrain)
+```
+
+## Tuning
+
+Tune `mtry` and `nodesize` and `sampsize` of the random forest to get the best possible tuning error.
+
+a) Define reasonable bounds for the parameter space. (Hint: Have a look at the number of rows and columns of the spam data)
+
+b) Use a random search to optimize over the parameter space.
+
+```{r, eval = TRUE}
+n = getTaskSize(spam.task)
+p = getTaskNFeats(spam.task)
+ps = makeParamSet(
+    makeIntegerParam("mtry", lower = 1, upper = p),
+    makeIntegerParam("nodesize", lower = 10, upper = 0.2 * n),
+    makeIntegerParam("sampsize", lower = 1, upper = 0.6 * n)
+)
+
+tune.control = makeTuneControlRandom(maxit = 10)
+lrn = makeLearner("classif.randomForest", predict.type = "prob")
+
+res = tuneParams(lrn, spam.task, hout, auc, ps, tune.control)
+```

@@ -1,0 +1,53 @@
+---
+title: Machine Learning with R at LRZ
+subtitle: Introduction to batchtools
+author: Janek Thomas, Johannes Albert-von der Gönna
+date: 2018-11-27
+output:
+  beamer_presentation:
+    includes:
+      in_header: "../../_setup/preamble.sty"
+    template: "../../_setup/custom_pandoc.tex"
+---
+
+## {.plain}
+
+```{r, child="../../_setup/setup.Rmd",echo=FALSE,message=FALSE,include=FALSE}
+```
+
+<!-- This file was created autmatically! Please check the entrys! -->
+
+
+
+# MOTIVATION
+
+
+```{r, child=readSlide("parallel_motivation")}
+```
+
+
+```{r, child=readSlide("parallel_basics")}
+```
+
+
+```{r, child=readSlide("parallel_parallelmap")}
+```
+
+
+# BATCHTOOLS
+
+
+```{r, child=readSlide("parallel_batch")}
+```
+
+
+```{r, child=readSlide("parallel_batchtools")}
+```
+
+
+```{r, child=readSlide("parallel_computer_experiments")}
+```
+
+
+# DEMO
+
