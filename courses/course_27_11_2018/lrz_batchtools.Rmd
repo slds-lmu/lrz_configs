@@ -34,11 +34,14 @@ output:
 ```
 
 
-# BATCHTOOLS
-
-
 ```{r, child=readSlide("parallel_batch")}
 ```
+
+
+# SLURM DEMO
+
+
+# BATCHTOOLS
 
 
 ```{r, child=readSlide("parallel_batchtools")}
@@ -49,5 +52,5 @@ output:
 ```
 
 
-# DEMO
+# BATCHTOOLS DEMO
 

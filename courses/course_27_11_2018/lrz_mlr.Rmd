@@ -1,7 +1,7 @@
 ---
 title: Machine Learning with R at LRZ
 subtitle: Introduction to mlr
-author: Janek Thomas
+author: Janek Thomas, Johannes Albert-von der Gönna
 date: 2018-11-27
 output:
   beamer_presentation:
