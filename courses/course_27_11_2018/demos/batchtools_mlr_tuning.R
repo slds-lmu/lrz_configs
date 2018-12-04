@@ -13,7 +13,7 @@ reg = makeExperimentRegistry(file.dir = "svm_tuning", packages= c("mlr", "OpenML
 
 resources = list(
   walltime = 600L, # 10 Minute runtime per job
-  memory = 1024L * 62L, # Grab enough memory (we're allocating a full node, so we can take all)
+  memory = 1024L * 55L, # Grab enough memory (we're allocating a full node, so we can take all)
   ntasks = 1L, # No distributed memory jobs
   ncpus = 28L, # Take all 28 CPUs
   nodes = 1L, # Take one full node
