@@ -1,0 +1,96 @@
+---
+title: Machine Learning with R at LRZ
+subtitle: Introduction to mlr
+author: www.essentialds.de
+date: 2019-10-11
+output:
+  beamer_presentation:
+    includes:
+      in_header: "../../_setup/preamble_eds.sty"
+    template: "../../_setup/custom_pandoc.tex"
+---
+
+## {.plain}
+
+```{r, child="../../_setup/setup.Rmd",echo=FALSE,message=FALSE,include=FALSE}
+```
+
+<!-- This file was created automatically! Please check the entrys! -->
+
+
+
+# WHAT IS MACHINE LEARNING
+
+
+```{r, child=readSlide("intro_ml_workflow")}
+```
+
+
+```{r, child=readSlide("intro_ml_task_types")}
+```
+
+
+```{r, child=readSlide("intro_tasks_classif")}
+```
+
+
+```{r, child=readSlide("intro_tasks_regr")}
+```
+
+
+# INTRODUCTION
+
+
+```{r, child=readSlide("mlr_motivation")}
+```
+
+
+```{r, child=readSlide("mlr_structure")}
+```
+
+
+```{r, child=readSlide("mlr_outlook")}
+```
+
+
+# FIRST DATA ANALYSIS
+
+
+```{r, child=readSlide("first_classif")}
+```
+
+
+# EXERCISE 1
+
+
+# RESAMPLING
+
+
+```{r, child=readSlide("resampling_04_mlr")}
+```
+
+
+```{r, child=readSlide("first_benchmark_short")}
+```
+
+
+# TUNING
+
+
+```{r, child=readSlide("tuning")}
+```
+
+
+```{r, child=readSlide("tuning_mlr")}
+```
+
+
+# PARALLEL MLR
+
+
+```{r, child=readSlide("parallel")}
+```
+
+
+# EXERCISE 2
+
