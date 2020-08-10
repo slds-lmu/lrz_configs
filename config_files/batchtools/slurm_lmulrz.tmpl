@@ -6,7 +6,7 @@ if (is.null(resources$ntasks))
 if (is.null(resources$ncpus))
   resources$ncpus = 1L
 if (is.null(resources$nodes))
-  resources$nodes = ceiling(resources$ncpus / 28)
+  resources$nodes = ceiling(resources$ncpus / 64)
 
 
 ## Check variables
@@ -25,14 +25,19 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
     resources$clusters = "serial"
   }
   if (is.null(resources$partition) && resources$clusters == "serial") {
-    resources$partition = "serial_mpp2"
+    resources$partition = "serial_std"
   }
   sprintf(paste0("#SBATCH --mem-per-cpu=", resources$memory))
 ## shared memory mode
 } else if(resources$ncpus > 1) {
   cmd = "Rscript"
   if (is.null(resources$clusters)) {
-    resources$clusters = "mpp2"
+    resources$clusters = "cm2"
+  }
+  if (is.null(resources$partition)) {
+    resources$partition = "cm2_tiny"
+    if (resources$ncpus <= 24 && resources$ncpus > 2) resources$partition = "cm2_std"
+    if (resources$ncpus > 24) resources$partition = "cm2_large"
   }
   sprintf(paste0("#SBATCH --nodes=", resources$nodes))
   sprintf(paste0("#SBATCH --cpus-per-task=", resources$ncpus))
@@ -42,7 +47,12 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
   cmd = "mpirun -np 1 Rscript"
   mincpus = 2L
   if (is.null(resources$clusters)) {
-    resources$clusters = "mpp2"
+    resources$clusters = "cm2"
+  }
+  if (is.null(resources$partition)) {
+    resources$partition = "cm2_tiny"
+    if (resources$ncpus <= 24 && resources$ncpus > 2) resources$partition = "cm2_std"
+    if (resources$ncpus > 24) resources$partition = "cm2_large"
   }
   sprintf(paste0("#SBATCH --mem-per-cpu=", resources$memory))
   sprintf(paste0("#SBATCH --ntasks=", resources$ntasks))
@@ -54,6 +64,7 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
 #SBATCH --error=<%= log.file %>
 #SBATCH --time=<%= ceiling(resources$walltime / 60L)%>
 #SBATCH --clusters=<%= resources$clusters %>
+##SBATCH --reservation=R_at_LRZ
 <%=
 ## set partition if required
 if(!is.null(resources$partition)){
