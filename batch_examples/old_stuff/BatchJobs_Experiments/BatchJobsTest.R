@@ -2,7 +2,8 @@ library(BatchJobs)
 
 if (!file.exists("reg")) {
  reg = makeRegistry(id = "reg")
-} else {
+} else
+{
  reg = loadRegistry(file.dir = "reg-files")
 }
 
@@ -22,8 +23,8 @@ batchMap(reg, function(i){
 ids = getJobIds(reg)
 
 
-submitJobs(reg, ids, resources = list(walltime = 300L,
-                                      memory = 512L))
+submitJobs(Reg, ids, resources = list(walltime = 300L,
+                                      memory = 512L));
 
 reduceResultsVector(reg)
 reduceResults(reg, fun = function(aggr, job, res) aggr + res)
