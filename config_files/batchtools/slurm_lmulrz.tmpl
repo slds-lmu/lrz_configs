@@ -59,6 +59,12 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
 }
 %>
 
+<%
+# relative paths are not handled well by Slurm
+log.file = fs::path_expand(log.file)
+-%>
+
+
 #SBATCH --job-name=<%= job.hash %>
 #SBATCH --output=<%= log.file %>
 #SBATCH --error=<%= log.file %>
