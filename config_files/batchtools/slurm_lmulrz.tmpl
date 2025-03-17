@@ -27,7 +27,7 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
   if (is.null(resources$partition) && resources$clusters == "serial") {
     resources$partition = "serial_std"
   }
-  sprintf(paste0("#SBATCH --mem-per-cpu=", resources$memory))
+  paste0("#SBATCH --mem-per-cpu=", resources$memory)
 ## shared memory mode
 } else if(resources$ncpus > 1) {
   cmd = "Rscript"
@@ -39,9 +39,9 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
     if (resources$ncpus <= 24 && resources$ncpus > 2) resources$partition = "cm2_std"
     if (resources$ncpus > 24) resources$partition = "cm2_large"
   }
-  sprintf(paste0("#SBATCH --nodes=", resources$nodes))
-  sprintf(paste0("#SBATCH --cpus-per-task=", resources$ncpus))
-  sprintf(paste0("#SBATCH --mem=", resources$memory))
+  paste0("#SBATCH --nodes=", resources$nodes,
+     "\n#SBATCH --cpus-per-task=", resources$ncpus,
+     "\n#SBATCH --mem=", resources$memory)
 ## distributed memory mode
 } else {
   cmd = "mpirun -np 1 Rscript"
@@ -54,8 +54,8 @@ if (resources$ntasks == 1L & resources$ncpus == 1L) {
     if (resources$ncpus <= 24 && resources$ncpus > 2) resources$partition = "cm2_std"
     if (resources$ncpus > 24) resources$partition = "cm2_large"
   }
-  sprintf(paste0("#SBATCH --mem-per-cpu=", resources$memory))
-  sprintf(paste0("#SBATCH --ntasks=", resources$ntasks))
+  paste0("#SBATCH --mem-per-cpu=", resources$memory,
+    "\n#SBATCH --ntasks=", resources$ntasks)
 }
 %>
 
@@ -70,11 +70,11 @@ log.file = fs::path_expand(log.file)
 #SBATCH --error=<%= log.file %>
 #SBATCH --time=<%= ceiling(resources$walltime / 60L)%>
 #SBATCH --clusters=<%= resources$clusters %>
-##SBATCH --reservation=R_at_LRZ
+
 <%=
 ## set partition if required
 if(!is.null(resources$partition)){
-sprintf(paste0("#SBATCH --partition='", resources$partition, "'\n"))
+paste0("#SBATCH --partition='", resources$partition, "'\n")
 }
 %>
 
